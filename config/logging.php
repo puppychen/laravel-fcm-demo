@@ -53,7 +53,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['daily', !empty(env('LOG_SLACK_WEBHOOK_URL')) ?'slack' : ''],
             'ignore_exceptions' => false,
         ],
 
@@ -76,6 +76,14 @@ return [
             'username' => 'Laravel Log',
             'emoji' => ':boom:',
             'level' => env('LOG_LEVEL', 'critical'),
+        ],
+
+        'slack' => [
+            'driver' => 'slack',
+            'url' => env('LOG_SLACK_WEBHOOK_URL'),
+            'username' => 'Laravel Log',
+            'emoji' => ':boom:',
+            'level' => env('LOG_SLACK_WEBHOOK_LEVEL') ?? 'critical',
         ],
 
         'papertrail' => [
